@@ -15,6 +15,9 @@
 
 Windows 사용자는 PowerShell이 아니라 WSL Ubuntu 터미널 또는 VSCode의 WSL Remote 터미널에서 실행하는 것을 권장합니다.
 
+WSL Ubuntu 터미널 또는 WSL Remote 터미널에서 이 리포지토리를 clone합니다.
+그 후 clone 받은 폴더에서 다음 명령어를 실행합니다.
+
 ```bash
 bash scripts/run.sh
 ```
