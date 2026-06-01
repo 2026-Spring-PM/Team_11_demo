@@ -62,7 +62,7 @@ docker run -it --rm \
 ```bash
 docker run --platform linux/amd64 --rm \
   -p 6080:6080 \
-  본인아이디/volcanic_vnc:latest
+  yoonjimin/volcanic_vnc:latest
 ```
 
 실행 후 브라우저에서 아래 주소로 접속합니다.
