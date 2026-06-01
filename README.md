@@ -7,11 +7,13 @@
 ### 1. 사전 준비 사항
 
 - Docker Desktop이 설치되어 있고 실행 중이어야 합니다.
-- Windows에서는 Windows 11 + WSL2 + WSLg 환경을 권장합니다.
+- **Windows**에서는 Windows 11 + WSL2 + WSLg 환경을 권장합니다.
 - Windows 10 또는 WSLg가 없는 환경에서는 VcXsrv/Xming 같은 별도 X server 설정이 필요할 수 있습니다.
-- macOS에서는 XQuartz 설정이 필요할 수 있습니다.
+- **macOS**에서는 별도 설정 없이 `bash scripts/run.sh` 명령만으로 실행할 수 있습니다. 게임은 브라우저를 통해 실행됩니다.
 
 ### 2. 실행 방법
+
+#### Windows
 
 Windows 사용자는 PowerShell이 아니라 WSL Ubuntu 터미널 또는 VSCode의 WSL Remote 터미널에서 실행하는 것을 권장합니다.
 
@@ -24,9 +26,24 @@ WSL Ubuntu 터미널 또는 WSL Remote 터미널에서 이 리포지토리를 cl
 bash scripts/run.sh
 ```
 
-위 명령은 Docker Hub에서 `kjhstrange/volcanic_game_img:latest` 이미지를 내려받은 뒤 게임을 실행합니다.
+#### macOS
+
+Docker Desktop을 실행한 뒤, 터미널에서 clone 받은 폴더로 이동하여 아래 명령어를 실행합니다.
+
+```bash
+bash scripts/run.sh
+```
+
+스크립트가 자동으로 Docker 이미지를 내려받고 브라우저를 열어 게임을 실행합니다.
+브라우저가 자동으로 열리지 않는 경우 아래 주소로 직접 접속하세요.
+
+http://localhost:6080/vnc.html?resize=scale&autoconnect=1
+
+> Apple Silicon (M1/M2/M3) Mac을 포함한 모든 Mac 환경을 지원합니다.
 
 ### 3. 직접 실행 명령
+
+#### Windows (WSL)
 
 스크립트를 사용하지 않고 직접 실행하려면 WSL 터미널에서 아래 명령을 사용할 수 있습니다.
 
@@ -40,6 +57,15 @@ docker run -it --rm \
   kjhstrange/volcanic_game_img:latest
 ```
 
+#### macOS
+
+```bash
+docker run --platform linux/amd64 --rm \
+  -p 6080:6080 \
+  본인아이디/volcanic_vnc:latest
+```
+
+실행 후 브라우저에서 아래 주소로 접속합니다.
 ---
 
 ## 게임 안내 및 조작법

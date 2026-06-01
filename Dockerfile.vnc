@@ -1,0 +1,35 @@
+FROM --platform=linux/amd64 kjhstrange/volcanic_game_img:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    x11vnc \
+    xvfb \
+    novnc \
+    websockify \
+    mesa-utils \
+    libgl1-mesa-dri \
+    libgl1 \
+    xdotool \
+    openbox \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV DISPLAY=:99
+ENV LIBGL_ALWAYS_SOFTWARE=1
+ENV GALLIUM_DRIVER=softpipe
+ENV MESA_GL_VERSION_OVERRIDE=4.5
+
+EXPOSE 6080
+
+CMD bash -c "\
+  Xvfb :99 -screen 0 1280x720x24 & \
+  sleep 2 && \
+  openbox & \
+  sleep 1 && \
+  x11vnc -display :99 -nopw -forever -bg -noxdamage && \
+  websockify --web=/usr/share/novnc 6080 localhost:5900 & \
+  sleep 2 && \
+  cd /workspace && ./volcanic_farm & \
+  sleep 3 && \
+  xdotool search --name 'volcanic' windowmove 0 0 ; \
+  wait"
