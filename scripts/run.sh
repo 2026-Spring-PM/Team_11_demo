@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-
 IMAGE="kjhstrange/volcanic_game_img:latest"
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -8,6 +7,22 @@ if ! command -v docker >/dev/null 2>&1; then
   exit 1
 fi
 
+# Detect OS
+OS="$(uname -s)"
+
+# macOS handling
+if [ "$OS" = "Darwin" ]; then
+  docker pull --platform linux/amd64 yoonjimin/volcanic_vnc:latest
+  docker run -d \
+    --platform linux/amd64 \
+    -p 6080:6080 \
+    yoonjimin/volcanic_vnc:latest
+  sleep 5
+  open "http://localhost:6080/vnc.html?resize=scale&autoconnect=1"
+  exit 0
+fi
+
+# Linux / WSL handling (기존 코드)
 if [ -z "${DISPLAY:-}" ]; then
   echo "DISPLAY is empty."
   echo "On Windows, run this script from a WSL2 + WSLg terminal."
